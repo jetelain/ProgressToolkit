@@ -23,9 +23,9 @@ namespace ConsoleDemo
             Console.WriteLine("Hello, World!");
         }
         
-        private static void DoAction(ConsoleProgessRender progress, string name)
+        private static void DoAction(ConsoleProgessRender render, string name)
         {
-            using var scope = progress.Root.CreateScope(name);
+            using var scope = render.Root.CreateScope(name);
             
             using (var rep = scope.CreateInteger("Integer1", 100))
             {

@@ -1,0 +1,28 @@
+name: .NET Linux
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  release:
+    types: [published]
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Use Nerdbank.GitVersioning to set version variables
+      uses: dotnet/nbgv@master
+      id: nbgv
+
+    - name: Restore dependencies
+      run: dotnet restore ProgressToolkit/ProgressToolkit.sln
+
+    - name: Build
+      run: dotnet build --no-restore --configuration Release ProgressToolkit/ProgressToolkit.sln -p:FileVersion=${{ steps.nbgv.outputs.SimpleVersion }} -p:PackageVersion=${{ steps.nbgv.outputs.NuGetPackageVersion }}

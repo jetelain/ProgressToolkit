@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ProgressToolkit\ProgressToolkit.csproj" />
+    <ProjectReference Include="..\..\src\ProgressToolkit\ProgressToolkit.csproj" />
   </ItemGroup>
 
 </Project>

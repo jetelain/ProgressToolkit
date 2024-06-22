@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35004.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgressToolkit", "ProgressToolkit\ProgressToolkit.csproj", "{E33B5CE9-C9C2-4773-9EF4-719EE2FBC897}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgressToolkit", "src\ProgressToolkit\ProgressToolkit.csproj", "{E33B5CE9-C9C2-4773-9EF4-719EE2FBC897}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleDemo", "ConsoleDemo\ConsoleDemo.csproj", "{CD619078-2BA9-4CE2-AA2A-28F281CAE8F2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleDemo", "demo\ConsoleDemo\ConsoleDemo.csproj", "{CD619078-2BA9-4CE2-AA2A-28F281CAE8F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgressToolkit.Wpf", "ProgressToolkit.Wpf\ProgressToolkit.Wpf.csproj", "{C52D3FA7-4637-4F44-90C8-400F0D25765F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgressToolkit.Wpf", "src\ProgressToolkit.Wpf\ProgressToolkit.Wpf.csproj", "{C52D3FA7-4637-4F44-90C8-400F0D25765F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
