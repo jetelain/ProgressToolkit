@@ -22,6 +22,8 @@ namespace ProgressToolkit.Wpf
 
         public bool IsRunning => !item.IsDone;
 
+        public bool IsIndeterminate => item.IsIndeterminate;
+
         public double PercentDone 
         {
             get { return percentDone; }
@@ -49,6 +51,7 @@ namespace ProgressToolkit.Wpf
             NotifyPropertyChanged(nameof(IsDone));
             NotifyPropertyChanged(nameof(IsRunning));
             NotifyPropertyChanged(nameof(Status));
+            NotifyPropertyChanged(nameof(IsIndeterminate));
             Parent?.UpdatePercent();
         }
 

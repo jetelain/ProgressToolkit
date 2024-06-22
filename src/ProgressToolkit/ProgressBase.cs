@@ -50,7 +50,10 @@ namespace ProgressToolkit
                 elapsed.Stop();
             }
             Ensure100Percent();
-            render.Finished(this);
+            if (parent != null)
+            {
+                render.Finished(this);
+            }
         }
 
         public abstract double PercentDone { get; }

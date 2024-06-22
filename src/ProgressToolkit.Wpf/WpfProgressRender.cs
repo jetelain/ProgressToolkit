@@ -4,13 +4,13 @@ using System.Windows.Threading;
 
 namespace ProgressToolkit.Wpf
 {
-    public sealed class ProgressViewModel : ProgressRenderBase, IDisposable
+    public sealed class WpfProgressRender : ProgressRenderBase, IDisposable
     {
         private readonly ConcurrentDictionary<int, ProgressItemViewModel> table = new ConcurrentDictionary<int, ProgressItemViewModel>();
         private readonly Dispatcher dispatcher;
         private readonly DispatcherTimer timer;
 
-        public ProgressViewModel()
+        public WpfProgressRender()
             : this(Application.Current.Dispatcher)
         {
 
@@ -18,7 +18,7 @@ namespace ProgressToolkit.Wpf
 
         public ProgressItemViewModel RootItem { get; }
 
-        public ProgressViewModel(Dispatcher dispatcher) 
+        public WpfProgressRender(Dispatcher dispatcher) 
         {
             this.dispatcher = dispatcher;
             this.RootItem = GetViewModel(Root);
@@ -82,9 +82,11 @@ namespace ProgressToolkit.Wpf
             dispatcher.BeginInvoke(() => GetViewModel(progressBase).WriteLine(message));
         }
 
-        public void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            lock(timer)
+            base.Dispose(disposing); 
+
+            lock (timer)
             {
                 if (timer.IsEnabled)
                 {

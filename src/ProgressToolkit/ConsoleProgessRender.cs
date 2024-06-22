@@ -2,7 +2,7 @@
 
 namespace ProgressToolkit
 {
-    public sealed class ConsoleProgessRender : ProgressRenderBase, IDisposable
+    public sealed class ConsoleProgessRender : ProgressRenderBase
     {
         private List<LayoutEntry> currentLayout = new List<LayoutEntry>();
         private string[] outputBuffer = new[] { string.Empty, string.Empty, string.Empty, string.Empty, string.Empty };
@@ -16,6 +16,7 @@ namespace ProgressToolkit
         private record struct LayoutEntry(ProgressBase Progress, int Offset, int ChildIndex); // 128 bits on x64
 
         private readonly object locker = new object();
+        private readonly int offset;
         private readonly bool isUnicode;
         private readonly Timer redrawTimer;
         private bool isRedrawTimerActive;
@@ -24,16 +25,13 @@ namespace ProgressToolkit
         public ConsoleProgessRender(CancellationToken token = default)
             : base(token)
         {
+            offset = Console.WindowTop;
             isUnicode = Console.OutputEncoding is UTF8Encoding || Console.OutputEncoding is UnicodeEncoding;
             redrawTimer = new Timer(_ => RedrawNow());
         }
 
         public override void Finished(ProgressBase progressBase)
         {
-            if (progressBase == Root)
-            {
-                return;
-            }
             RelayoutNow();
         }
 
@@ -79,7 +77,15 @@ namespace ProgressToolkit
         {
             lock (locker)
             {
-                DrawPercentsOnly(GetMaxWidth());
+                try
+                {
+
+                    DrawPercentsOnly(GetMaxWidth());
+                }
+                catch(ArgumentOutOfRangeException)
+                {
+                    RelayoutNow();
+                }
             }
         }
 
@@ -87,7 +93,14 @@ namespace ProgressToolkit
         {
             lock (locker)
             {
-                DrawOutput(GetMaxWidth());
+                try
+                {
+                    DrawOutput(GetMaxWidth());
+                }
+                catch(ArgumentOutOfRangeException)
+                {
+                    RelayoutNow();
+                }
             }
         }
 
@@ -98,7 +111,7 @@ namespace ProgressToolkit
                 var top = currentProgressHeight;
                 foreach (var output in outputBuffer)
                 {
-                    Console.SetCursorPosition(0, top);
+                    Console.SetCursorPosition(0, top + offset);
                     WriteWidth(output, maxWidth);
                     top++;
                 }
@@ -121,8 +134,7 @@ namespace ProgressToolkit
             {
                 if (row < currentLayout.Count)
                 {
-                    Console.SetCursorPosition(0, row);
-                    DrawEntry(currentLayout[row], maxWidth);
+                    DrawEntry(row, currentLayout[row], maxWidth);
                 }
             }
         }
@@ -133,36 +145,37 @@ namespace ProgressToolkit
             {
                 if (row < currentLayout.Count)
                 {
-                    Console.SetCursorPosition(0, row);
-                    DrawEntryPercent(currentLayout[row], maxWidth);
+                    DrawEntryPercent(row, currentLayout[row], maxWidth);
                 }
             }
         }
 
-        private void DrawEntry(LayoutEntry layoutEntry, int maxWidth)
+        private void DrawEntry(int row, LayoutEntry layoutEntry, int maxWidth)
         {
-            DrawEntryName(layoutEntry);
+            DrawEntryName(row, layoutEntry);
 
-            DrawEntryPercent(layoutEntry, maxWidth);
+            DrawEntryPercent(row, layoutEntry, maxWidth);
         }
 
-        private void DrawEntryName(LayoutEntry layoutEntry)
+        private void DrawEntryName(int row, LayoutEntry layoutEntry)
         {
             var nameOffset = layoutEntry.Offset * 2;
-            Console.CursorLeft = nameOffset;
+            Console.SetCursorPosition(nameOffset, row+ offset);
             WriteWidth(layoutEntry.Progress.Name, NameWidth - nameOffset);
         }
 
-        private void DrawEntryPercent(LayoutEntry layoutEntry, int maxWidth)
+        private void DrawEntryPercent(int row, LayoutEntry layoutEntry, int maxWidth)
         {
             var progress = layoutEntry.Progress;
             if (progress.IsIndeterminate)
             {
+                Console.SetCursorPosition(NameWidth + BarWidth + PercentWidth, row + offset);
+                DrawEntryStatusText(maxWidth, progress, maxWidth - PercentWidth - BarWidth - NameWidth);
                 return;
             }
             var percent = progress.PercentDone;
             var cols = Math.Clamp((int)(percent * BarWidth / 100), 0, BarWidth);
-            Console.CursorLeft = NameWidth;
+            Console.SetCursorPosition(NameWidth, row + offset);
             if (isUnicode)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -273,18 +286,19 @@ namespace ProgressToolkit
             return active;
         }
 
-        public void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            Root.Dispose();
+            base.Dispose(disposing);
             currentLayout = new List<LayoutEntry>();
             redrawTimer.Dispose();
+
             DrawFinalReport();
         }
 
         private void DrawFinalReport()
         {
             Console.Clear();
-            Console.SetCursorPosition(0, 0);
+            Console.SetCursorPosition(0, offset);
             DrawReport(Root.Children, GetMaxWidth());
         }
 
@@ -298,7 +312,7 @@ namespace ProgressToolkit
             int num = 0;
             foreach (var child in children)
             {
-                DrawEntry(new LayoutEntry(child, offset, num), maxWidth);
+                DrawEntry(Console.CursorTop, new LayoutEntry(child, offset, num), maxWidth);
                 Console.WriteLine();
                 DrawReport(child.Children, maxWidth, offset + 1);
                 num++;

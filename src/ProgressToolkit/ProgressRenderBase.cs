@@ -1,6 +1,6 @@
 ﻿namespace ProgressToolkit
 {
-    public abstract class ProgressRenderBase
+    public abstract class ProgressRenderBase : IProgressScope
     {
         private int lastId = 0;
         private readonly ProgressScope root;
@@ -25,6 +25,54 @@
 
         public abstract void WriteLine(ProgressBase progressBase, string message);
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            root.Dispose();
+        }
+
+        public IProgressInteger CreateInteger(string name, int total)
+        {
+            return root.CreateInteger(name, total);
+        }
+
+        public IProgressLong CreateLong(string name, long total)
+        {
+            return root.CreateLong(name, total);
+        }
+
+        public IProgressBase CreateSingle(string name)
+        {
+            return root.CreateSingle(name);
+        }
+
+        public IProgressPercent CreatePercent(string name)
+        {
+            return root.CreatePercent(name);
+        }
+
+        public IProgressScope CreateScope(string name, int estimatedChildrenCount = 0)
+        {
+            return root.CreateScope(name, estimatedChildrenCount);
+        }
+
+        public void WriteLine(string message)
+        {
+            root.WriteLine(message);
+        }
+
+        public void Report(string value)
+        {
+            root.Report(value);
+        }
+
         public ProgressScope Root => root;
+
+        public CancellationToken CancellationToken => root.CancellationToken;
     }
 }
