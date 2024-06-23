@@ -25,4 +25,4 @@ jobs:
       run: dotnet restore ProgressTracking.sln
 
     - name: Build
-      run: dotnet build --no-restore --configuration Release ProgressTracking.sln -p:FileVersion=${{ steps.nbgv.outputs.SimpleVersion }} -p:PackageVersion=${{ steps.nbgv.outputs.NuGetPackageVersion }}
+      run: dotnet build --no-restore --configuration Release ProgressTracking.sln
