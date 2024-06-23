@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace ProgressToolkit
+namespace Pmad.ProgressToolkit
 {
     public abstract class ProgressBase : IProgressBase
     {
@@ -9,6 +9,7 @@ namespace ProgressToolkit
         protected readonly Stopwatch elapsed;
         protected readonly ProgressScope? parent;
         protected readonly ProgressRenderBase render;
+        private long finished = long.MaxValue;
 
         internal ProgressBase(ProgressScope parent, string name)
             : this(parent.render, name)
@@ -48,6 +49,7 @@ namespace ProgressToolkit
             if (elapsed.IsRunning)
             {
                 elapsed.Stop();
+                finished = Stopwatch.GetTimestamp();
             }
             Ensure100Percent();
             if (parent != null)
@@ -70,6 +72,8 @@ namespace ProgressToolkit
 
         public long ElapsedMilliseconds => elapsed.ElapsedMilliseconds;
 
+        public long FinishedTimestamp => finished;
+
         public TimeSpan Elapsed => elapsed.Elapsed;
 
         public virtual IReadOnlyCollection<ProgressBase> Children => NoChildren;
@@ -87,13 +91,13 @@ namespace ProgressToolkit
                 }
                 if (elapsedTime.TotalMinutes > 2)
                 {
-                    return $"Done in {elapsedTime.TotalMinutes:0.0} minutes";
+                    return $"Done in {elapsedTime.TotalMinutes:0.0} min";
                 }
                 if (elapsedTime.TotalSeconds > 2)
                 {
-                    return $"Done in {elapsedTime.TotalSeconds:0.0} seconds";
+                    return $"Done in {elapsedTime.TotalSeconds:0} sec";
                 }
-                return $"Done in {elapsedTime.TotalMilliseconds:0.0} msec";
+                return $"Done in {elapsedTime.TotalMilliseconds:0} msec";
             }
             if (IsTimeLinear)
             {
@@ -103,11 +107,11 @@ namespace ProgressToolkit
                     var remainTime = TimeSpan.FromMilliseconds(ElapsedMilliseconds * (100.0 - percent) / percent);
                     if (remainTime.TotalMinutes > 2)
                     {
-                        return $"{remainTime.TotalMinutes:0.0} minutes left";
+                        return $"{Math.Ceiling(remainTime.TotalMinutes):0} min left";
                     }
                     if (remainTime.TotalSeconds > 2)
                     {
-                        return $"{remainTime.TotalSeconds:0.0} seconds left";
+                        return $"{Math.Ceiling(remainTime.TotalSeconds):0} sec left";
                     }
                     return "Almost done";
                 }

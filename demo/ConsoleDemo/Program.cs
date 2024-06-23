@@ -1,4 +1,4 @@
-﻿using ProgressToolkit;
+﻿using Pmad.ProgressToolkit;
 
 namespace ConsoleDemo
 {

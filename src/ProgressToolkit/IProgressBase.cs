@@ -1,4 +1,4 @@
-﻿namespace ProgressToolkit
+﻿namespace Pmad.ProgressToolkit
 {
     /// <summary>
     /// Base of progress items

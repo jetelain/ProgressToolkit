@@ -1,4 +1,4 @@
-﻿namespace ProgressToolkit
+﻿namespace Pmad.ProgressToolkit
 {
     public abstract class ProgressRenderBase : IProgressScope
     {

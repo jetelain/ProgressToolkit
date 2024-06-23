@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace ProgressToolkit
+namespace Pmad.ProgressToolkit
 {
     public sealed class ConsoleProgessRender : ProgressRenderBase
     {
@@ -79,7 +79,6 @@ namespace ProgressToolkit
             {
                 try
                 {
-
                     DrawPercentsOnly(GetMaxWidth());
                 }
                 catch(ArgumentOutOfRangeException)
@@ -109,7 +108,7 @@ namespace ProgressToolkit
             if (currentOutputHeight > 0)
             {
                 var top = currentProgressHeight;
-                foreach (var output in outputBuffer)
+                foreach (var output in outputBuffer.Reverse())
                 {
                     Console.SetCursorPosition(0, top + offset);
                     WriteWidth(output, maxWidth);
@@ -240,19 +239,23 @@ namespace ProgressToolkit
                 outputHeight = outputBuffer.Length;
                 progressHeight -= outputHeight;
             }
-            int indexToRemove = 0;
-            while (candidates.Count > progressHeight && candidates.Count > active)
+
+            if (candidates.Count > progressHeight)
             {
-                candidates.RemoveAll(e => e.ChildIndex == indexToRemove && e.Progress.IsDone);
-                indexToRemove++;
+                var toRemove = candidates.Where(c => c.Progress.IsDone)
+                    .OrderBy(c => c.Progress.FinishedTimestamp)
+                    .Take(candidates.Count - progressHeight)
+                    .ToList();
+                candidates.RemoveAll(toRemove.Contains);
             }
+
             currentProgressHeight = progressHeight;
             currentOutputHeight = outputHeight;
             currentLayout = candidates;
             return active > 0;
         }
 
-        public void SetTimerActive(bool active)
+        private void SetTimerActive(bool active)
         {
             if (active != isRedrawTimerActive)
             {
@@ -316,6 +319,25 @@ namespace ProgressToolkit
                 Console.WriteLine();
                 DrawReport(child.Children, maxWidth, offset + 1);
                 num++;
+            }
+        }
+
+        /// <summary>
+        /// Suspend progress drawing process, to allow an external program to output on console
+        /// </summary>
+        public void Suspend()
+        {
+            SetTimerActive(false);
+        }
+
+        /// <summary>
+        /// Resume progress drawing process
+        /// </summary>
+        public void Resume()
+        {
+            if (!Root.IsDone)
+            {
+                RelayoutNow();
             }
         }
     }

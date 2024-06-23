@@ -5,7 +5,6 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<UseWPF>true</UseWPF>
-		<PackageId>Pmad.ProgessToolkit.Wpf</PackageId>
 		<EnableWindowsTargeting>true</EnableWindowsTargeting>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -14,7 +13,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\ProgressToolkit\ProgressToolkit.csproj" />
+		<ProjectReference Include="..\ProgressToolkit\Pmad.ProgressToolkit.csproj" />
 	</ItemGroup>
 	
 	<ItemGroup>
