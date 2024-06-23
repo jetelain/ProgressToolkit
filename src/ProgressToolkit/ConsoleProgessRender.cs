@@ -2,6 +2,9 @@
 
 namespace Pmad.ProgressToolkit
 {
+    /// <summary>
+    /// Display progress on a console/terminal
+    /// </summary>
     public sealed class ConsoleProgessRender : ProgressRenderBase
     {
         private List<LayoutEntry> currentLayout = new List<LayoutEntry>();
@@ -23,6 +26,10 @@ namespace Pmad.ProgressToolkit
         private bool isRedrawTimerActive;
         private bool didOutput = false;
 
+        /// <summary>
+        /// Create an instance of <see cref="ConsoleProgessRender"/>
+        /// </summary>
+        /// <param name="token">Cancellation token to propagate to scopes.</param>
         public ConsoleProgessRender(CancellationToken token = default)
             : base(token)
         {
