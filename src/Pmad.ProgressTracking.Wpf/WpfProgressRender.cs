@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Threading;
 
-namespace Pmad.ProgressToolkit.Wpf
+namespace Pmad.ProgressTracking.Wpf
 {
     public sealed class WpfProgressRender : ProgressRenderBase, IDisposable
     {

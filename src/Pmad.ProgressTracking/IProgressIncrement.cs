@@ -1,4 +1,4 @@
-﻿namespace Pmad.ProgressToolkit
+﻿namespace Pmad.ProgressTracking
 {
     /// <summary>
     /// Numeric based progress, that can be incremented

@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace Pmad.ProgressToolkit
+namespace Pmad.ProgressTracking
 {
     public abstract class ProgressBase : IProgressBase
     {

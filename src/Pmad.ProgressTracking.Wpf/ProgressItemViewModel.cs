@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 
-namespace Pmad.ProgressToolkit.Wpf
+namespace Pmad.ProgressTracking.Wpf
 {
     public sealed class ProgressItemViewModel : INotifyPropertyChanged
     {

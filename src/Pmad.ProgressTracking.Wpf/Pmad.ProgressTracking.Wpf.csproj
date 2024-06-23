@@ -13,7 +13,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\ProgressToolkit\Pmad.ProgressToolkit.csproj" />
+		<ProjectReference Include="..\Pmad.ProgressTracking\Pmad.ProgressTracking.csproj" />
 	</ItemGroup>
 	
 	<ItemGroup>

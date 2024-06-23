@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\ProgressToolkit\Pmad.ProgressToolkit.csproj" />
+    <ProjectReference Include="..\..\src\Pmad.ProgressTracking\Pmad.ProgressTracking.csproj" />
   </ItemGroup>
 
 </Project>

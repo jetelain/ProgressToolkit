@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Pmad.ProgressToolkit
+namespace Pmad.ProgressTracking
 {
     /// <summary>
     /// Display progress on a console/terminal

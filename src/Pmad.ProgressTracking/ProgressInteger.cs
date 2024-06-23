@@ -1,4 +1,4 @@
-﻿namespace Pmad.ProgressToolkit
+﻿namespace Pmad.ProgressTracking
 {
     internal sealed class ProgressInteger : ProgressBase, IProgressInteger
     {

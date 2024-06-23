@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 
-namespace Pmad.ProgressToolkit
+namespace Pmad.ProgressTracking
 {
     public static class CollectionExtensions
     {

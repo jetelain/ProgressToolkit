@@ -1,4 +1,4 @@
-﻿namespace Pmad.ProgressToolkit
+﻿namespace Pmad.ProgressTracking
 {
     public interface IProgressPercent : IProgressBase, IProgress<double>
     {
