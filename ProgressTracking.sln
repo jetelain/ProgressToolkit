@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleDemo", "demo\Console
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pmad.ProgressTracking.Wpf", "src\Pmad.ProgressTracking.Wpf\Pmad.ProgressTracking.Wpf.csproj", "{C52D3FA7-4637-4F44-90C8-400F0D25765F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfDemo", "demo\WpfDemo\WpfDemo.csproj", "{6F565D51-9DA2-42B0-AD6E-7F1B9EB577A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{C52D3FA7-4637-4F44-90C8-400F0D25765F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C52D3FA7-4637-4F44-90C8-400F0D25765F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C52D3FA7-4637-4F44-90C8-400F0D25765F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F565D51-9DA2-42B0-AD6E-7F1B9EB577A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F565D51-9DA2-42B0-AD6E-7F1B9EB577A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F565D51-9DA2-42B0-AD6E-7F1B9EB577A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F565D51-9DA2-42B0-AD6E-7F1B9EB577A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

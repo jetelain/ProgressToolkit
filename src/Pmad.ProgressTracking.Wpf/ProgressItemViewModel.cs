@@ -18,6 +18,8 @@ namespace Pmad.ProgressTracking.Wpf
             this.item = item;
         }
 
+        public string Name => item.Name;
+
         public bool IsDone => item.IsDone;
 
         public bool IsRunning => !item.IsDone;
