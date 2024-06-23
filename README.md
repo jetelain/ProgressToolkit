@@ -63,6 +63,7 @@ using (var progress = scope.CreatePercent("Integer"))
 
 ## Console
 
+Example: [ConsoleDemo](demo/ConsoleDemo/Program.cs)
 
 ## WPF
 

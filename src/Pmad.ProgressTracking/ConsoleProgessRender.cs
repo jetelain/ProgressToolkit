@@ -20,7 +20,7 @@ namespace Pmad.ProgressTracking
         private record struct LayoutEntry(ProgressBase Progress, int Offset);
 
         private readonly object locker = new object();
-        private readonly int offset;
+        private int rowOffset;
         private readonly bool isUnicode;
         private readonly Timer redrawTimer;
         private bool isRedrawTimerActive;
@@ -33,9 +33,20 @@ namespace Pmad.ProgressTracking
         public ConsoleProgessRender(CancellationToken token = default)
             : base(token)
         {
-            offset = Console.WindowTop;
+            MoveWindowTopOfWindowHeight();
+            rowOffset = Console.WindowTop;
             isUnicode = Console.OutputEncoding is UTF8Encoding || Console.OutputEncoding is UnicodeEncoding;
             redrawTimer = new Timer(_ => RedrawNow());
+        }
+
+        private static void MoveWindowTopOfWindowHeight()
+        {
+            Console.CursorVisible = true;
+            for (int i = 0; i < Console.WindowHeight; i++)
+            {
+                Console.WriteLine();
+            }
+            Console.CursorVisible = false;
         }
 
         /// <inheritdoc />
@@ -81,6 +92,7 @@ namespace Pmad.ProgressTracking
         {
             lock (locker)
             {
+                rowOffset = Console.WindowTop;
                 SetTimerActive(ComputeLayout());
                 FullPrint(GetMaxWidth());
             }
@@ -123,7 +135,7 @@ namespace Pmad.ProgressTracking
                 var top = currentProgressHeight;
                 foreach (var output in outputBuffer.Reverse())
                 {
-                    Console.SetCursorPosition(0, top + offset);
+                    Console.SetCursorPosition(0, top + rowOffset);
                     WriteWidth(output, maxWidth);
                     top++;
                 }
@@ -178,14 +190,14 @@ namespace Pmad.ProgressTracking
         private void DrawEntryName(int row, LayoutEntry layoutEntry)
         {
             var nameOffset = layoutEntry.Offset * 2;
-            Console.SetCursorPosition(0, row + offset);
+            Console.SetCursorPosition(0, row + rowOffset);
             Console.Write(new string(' ', nameOffset));
             WriteWidth(layoutEntry.Progress.Name, NameWidth - nameOffset);
         }
 
         private void DrawEntryPercent(int row, LayoutEntry layoutEntry, int maxWidth)
         {
-            Console.SetCursorPosition(NameWidth, row + offset);
+            Console.SetCursorPosition(NameWidth, row + rowOffset);
             var progress = layoutEntry.Progress;
             if (progress.IsIndeterminate)
             {
@@ -315,12 +327,14 @@ namespace Pmad.ProgressTracking
             redrawTimer.Dispose();
 
             DrawFinalReport(); // XXX: Make it optional ?
+
+            Console.CursorVisible = true;
         }
 
         private void DrawFinalReport()
         {
             Console.Clear();
-            Console.SetCursorPosition(0, offset);
+            Console.SetCursorPosition(0, rowOffset);
             DrawReport(Root.Children, GetMaxWidth());
         }
 
@@ -345,6 +359,7 @@ namespace Pmad.ProgressTracking
         public void Suspend()
         {
             SetTimerActive(false);
+            Console.CursorVisible = true;
         }
 
         /// <summary>
@@ -352,6 +367,7 @@ namespace Pmad.ProgressTracking
         /// </summary>
         public void Resume()
         {
+            Console.CursorVisible = false;
             if (!Root.IsDone)
             {
                 RelayoutNow();
