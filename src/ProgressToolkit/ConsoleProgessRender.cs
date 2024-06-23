@@ -8,12 +8,13 @@ namespace Pmad.ProgressToolkit
         private string[] outputBuffer = new[] { string.Empty, string.Empty, string.Empty, string.Empty, string.Empty };
         private int currentProgressHeight;
         private int currentOutputHeight;
+        private int lastLayoutHeight;
 
         private const int BarWidth = 20;
         private const int NameWidth = 30;
         private const int PercentWidth = 10;
 
-        private record struct LayoutEntry(ProgressBase Progress, int Offset, int ChildIndex); // 128 bits on x64
+        private record struct LayoutEntry(ProgressBase Progress, int Offset);
 
         private readonly object locker = new object();
         private readonly int offset;
@@ -30,26 +31,31 @@ namespace Pmad.ProgressToolkit
             redrawTimer = new Timer(_ => RedrawNow());
         }
 
+        /// <inheritdoc />
         public override void Finished(ProgressBase progressBase)
         {
             RelayoutNow();
         }
 
+        /// <inheritdoc />
         public override void PercentChanged(ProgressBase progressBase)
         {
 
         }
 
+        /// <inheritdoc />
         public override void Started(ProgressScope progressScope, ProgressBase item)
         {
             RelayoutNow();
         }
 
+        /// <inheritdoc />
         public override void TextChanged(ProgressBase progressBase)
         {
             RedrawNow();
         }
 
+        /// <inheritdoc />
         public override void WriteLine(ProgressBase progressBase, string message)
         {
             didOutput = true;
@@ -128,7 +134,13 @@ namespace Pmad.ProgressToolkit
 
         private void DrawEntriesClean(int maxWidth)
         {
-            Console.Clear();
+            if (lastLayoutHeight > currentLayout.Count)
+            {
+                Console.Clear();
+            }
+
+            lastLayoutHeight = currentLayout.Count;
+
             for (int row = 0; row < currentProgressHeight; row++)
             {
                 if (row < currentLayout.Count)
@@ -159,22 +171,23 @@ namespace Pmad.ProgressToolkit
         private void DrawEntryName(int row, LayoutEntry layoutEntry)
         {
             var nameOffset = layoutEntry.Offset * 2;
-            Console.SetCursorPosition(nameOffset, row+ offset);
+            Console.SetCursorPosition(0, row + offset);
+            Console.Write(new string(' ', nameOffset));
             WriteWidth(layoutEntry.Progress.Name, NameWidth - nameOffset);
         }
 
         private void DrawEntryPercent(int row, LayoutEntry layoutEntry, int maxWidth)
         {
+            Console.SetCursorPosition(NameWidth, row + offset);
             var progress = layoutEntry.Progress;
             if (progress.IsIndeterminate)
             {
-                Console.SetCursorPosition(NameWidth + BarWidth + PercentWidth, row + offset);
+                Console.Write(new string(' ', BarWidth + PercentWidth));
                 DrawEntryStatusText(maxWidth, progress, maxWidth - PercentWidth - BarWidth - NameWidth);
                 return;
             }
             var percent = progress.PercentDone;
             var cols = Math.Clamp((int)(percent * BarWidth / 100), 0, BarWidth);
-            Console.SetCursorPosition(NameWidth, row + offset);
             if (isUnicode)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -275,27 +288,26 @@ namespace Pmad.ProgressToolkit
         private int FindCandiates(IReadOnlyCollection<ProgressBase> children, List<LayoutEntry> candidates, int offset = 0)
         {
             int active = 0;
-            int num = 0;
             foreach (var child in children)
             {
-                candidates.Add(new LayoutEntry(child, offset, num));
+                candidates.Add(new LayoutEntry(child, offset));
                 if (!child.IsDone)
                 {
                     active++;
                     active += FindCandiates(child.Children, candidates, offset + 1);
                 }
-                num++;
             }
             return active;
         }
 
+        /// <inheritdoc />
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
             currentLayout = new List<LayoutEntry>();
             redrawTimer.Dispose();
 
-            DrawFinalReport();
+            DrawFinalReport(); // XXX: Make it optional ?
         }
 
         private void DrawFinalReport()
@@ -312,13 +324,11 @@ namespace Pmad.ProgressToolkit
 
         private void DrawReport(IReadOnlyCollection<ProgressBase> children, int maxWidth, int offset = 0)
         {
-            int num = 0;
             foreach (var child in children)
             {
-                DrawEntry(Console.CursorTop, new LayoutEntry(child, offset, num), maxWidth);
+                DrawEntry(Console.CursorTop, new LayoutEntry(child, offset), maxWidth);
                 Console.WriteLine();
                 DrawReport(child.Children, maxWidth, offset + 1);
-                num++;
             }
         }
 
