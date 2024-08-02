@@ -61,6 +61,11 @@
             return root.CreateScope(name, estimatedChildrenCount);
         }
 
+        public IProgressScope CreateScope(string name, int estimatedChildrenCount, CancellationToken token)
+        {
+            return root.CreateScope(name, estimatedChildrenCount, token);
+        }
+
         public void WriteLine(string message)
         {
             root.WriteLine(message);
@@ -69,6 +74,11 @@
         public void Report(string value)
         {
             root.Report(value);
+        }
+
+        public void Failed(Exception ex)
+        {
+            root.Failed(ex);
         }
 
         public ProgressScope Root => root;

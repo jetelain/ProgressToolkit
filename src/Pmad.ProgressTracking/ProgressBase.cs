@@ -80,6 +80,8 @@ namespace Pmad.ProgressTracking
 
         public virtual bool IsTimeLinear => false;
 
+        public Exception? Error { get; private set; }
+
         public string GetDefaultStatusText()
         {
             if (IsDone)
@@ -117,6 +119,12 @@ namespace Pmad.ProgressTracking
                 }
             }
             return string.Empty;
+        }
+
+        public void Failed(Exception ex)
+        {
+            Error = ex;
+            WriteLine($"Error: {ex.Message}");
         }
     }
 }

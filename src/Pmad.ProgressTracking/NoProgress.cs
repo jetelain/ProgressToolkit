@@ -1,4 +1,5 @@
-﻿namespace Pmad.ProgressTracking
+﻿
+namespace Pmad.ProgressTracking
 {
     public sealed class NoProgress : IProgressBase, IProgressInteger, IProgressLong, IProgressPercent, IProgressScope
     {
@@ -24,12 +25,22 @@
             return this;
         }
 
+        public IProgressScope CreateScope(string name, int estimatedChildrenCount, CancellationToken token)
+        {
+            return this;
+        }
+
         public IProgressBase CreateSingle(string name)
         {
             return this;
         }
 
         public void Dispose()
+        {
+
+        }
+
+        public void Failed(Exception ex)
         {
 
         }

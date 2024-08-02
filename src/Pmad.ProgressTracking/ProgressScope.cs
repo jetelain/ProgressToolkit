@@ -11,11 +11,11 @@
             CancellationToken = token;
         }
 
-        private ProgressScope(ProgressScope parent, string name, int estimatedChildrenCount)
+        private ProgressScope(ProgressScope parent, string name, int estimatedChildrenCount, CancellationToken token)
             : base(parent, name)
         {
             this.estimatedChildrenCount = estimatedChildrenCount;
-            CancellationToken = parent.CancellationToken;
+            CancellationToken = token;
         }
 
         public override double PercentDone
@@ -79,7 +79,12 @@
 
         public IProgressScope CreateScope(string name, int estimatedChildrenCount = 0)
         {
-            return AddLocked(new ProgressScope(this, name, estimatedChildrenCount));
+            return AddLocked(new ProgressScope(this, name, estimatedChildrenCount, CancellationToken));
+        }
+
+        public IProgressScope CreateScope(string name, int estimatedChildrenCount, CancellationToken token)
+        {
+            return AddLocked(new ProgressScope(this, name, estimatedChildrenCount, CancellationToken));
         }
 
         public IProgressBase CreateSingle(string name)

@@ -37,6 +37,22 @@
         /// <returns></returns>
         IProgressPercent CreatePercent(string name);
 
+        /// <summary>
+        /// Create a sub-scope
+        /// </summary>
+        /// <param name="name">Name of the sub-scope</param>
+        /// <param name="estimatedChildrenCount">Estimated number of children of sub-scope</param>
+        /// <returns></returns>
         IProgressScope CreateScope(string name, int estimatedChildrenCount = 0);
+
+        /// <summary>
+        /// Create a sub-scope with a new cancellation token
+        /// </summary>
+        /// <param name="name">Name of the sub-scope</param>
+        /// <param name="estimatedChildrenCount">Estimated number of children of sub-scope</param>
+        /// <param name="token">Cancellation toekn of subscope</param>
+        /// <returns></returns>
+        IProgressScope CreateScope(string name, int estimatedChildrenCount, CancellationToken token);
+
     }
 }

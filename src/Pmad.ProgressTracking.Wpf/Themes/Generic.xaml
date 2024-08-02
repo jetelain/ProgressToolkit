@@ -20,7 +20,7 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="150" />
                                         <ColumnDefinition Width="75" />
-                                        <ColumnDefinition Width="75" />
+                                        <ColumnDefinition Width="100" />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="{Binding Name, Mode=OneWay}" Grid.Column="0" />
                                     <ProgressBar Value="{Binding PercentDone, Mode=OneWay}" Minimum="0" Maximum="100" Margin="2" Grid.Column="1" IsIndeterminate="{Binding IsIndeterminate, Mode=OneWay}" />

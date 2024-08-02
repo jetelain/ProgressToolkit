@@ -4,21 +4,22 @@ using System.Windows.Threading;
 
 namespace Pmad.ProgressTracking.Wpf
 {
-    public sealed class WpfProgressRender : ProgressRenderBase, IDisposable
+    public class WpfProgressRender : ProgressRenderBase, IDisposable
     {
         private readonly ConcurrentDictionary<int, ProgressItemViewModel> table = new ConcurrentDictionary<int, ProgressItemViewModel>();
-        private readonly Dispatcher dispatcher;
+        protected readonly Dispatcher dispatcher;
         private readonly DispatcherTimer timer;
 
-        public WpfProgressRender()
-            : this(Application.Current.Dispatcher)
+        public WpfProgressRender(CancellationToken cancellationToken = default)
+            : this(Application.Current.Dispatcher, cancellationToken)
         {
 
         }
 
         public ProgressItemViewModel RootItem { get; }
 
-        public WpfProgressRender(Dispatcher dispatcher) 
+        public WpfProgressRender(Dispatcher dispatcher, CancellationToken cancellationToken = default)
+            : base(cancellationToken) 
         {
             this.dispatcher = dispatcher;
             this.RootItem = GetViewModel(Root);
@@ -79,7 +80,12 @@ namespace Pmad.ProgressTracking.Wpf
 
         public override void WriteLine(ProgressBase progressBase, string message)
         {
-            dispatcher.BeginInvoke(() => GetViewModel(progressBase).WriteLine(message));
+            dispatcher.BeginInvoke(() => WriteLine(GetViewModel(progressBase), message));
+        }
+
+        protected virtual void WriteLine(ProgressItemViewModel progressItemViewModel, string message)
+        {
+
         }
 
         protected override void Dispose(bool disposing)

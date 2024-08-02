@@ -12,5 +12,11 @@
         /// </summary>
         /// <param name="message"></param>
         void WriteLine(string message);
+
+        /// <summary>
+        /// Set the progress as failed with the specified exception.
+        /// </summary>
+        /// <param name="ex">Reason of the failure</param>
+        void Failed(Exception ex);
     }
 }

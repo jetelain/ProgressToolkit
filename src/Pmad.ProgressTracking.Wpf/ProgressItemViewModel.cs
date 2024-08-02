@@ -26,6 +26,8 @@ namespace Pmad.ProgressTracking.Wpf
 
         public bool IsIndeterminate => item.IsIndeterminate;
 
+        public bool IsFailed => item.Error != null;
+
         public double PercentDone 
         {
             get { return percentDone; }
@@ -54,6 +56,10 @@ namespace Pmad.ProgressTracking.Wpf
             NotifyPropertyChanged(nameof(IsRunning));
             NotifyPropertyChanged(nameof(Status));
             NotifyPropertyChanged(nameof(IsIndeterminate));
+            if (IsFailed)
+            {
+                NotifyPropertyChanged(nameof(IsFailed));
+            }
             Parent?.UpdatePercent();
         }
 
@@ -69,11 +75,6 @@ namespace Pmad.ProgressTracking.Wpf
         internal void TextChanged()
         {
             NotifyPropertyChanged(nameof(Status));
-        }
-
-        internal void WriteLine(string message)
-        {
-
         }
 
         private void NotifyPropertyChanged(string propertyName)
