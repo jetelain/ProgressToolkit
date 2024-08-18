@@ -84,7 +84,7 @@
 
         public IProgressScope CreateScope(string name, int estimatedChildrenCount, CancellationToken token)
         {
-            return AddLocked(new ProgressScope(this, name, estimatedChildrenCount, CancellationToken));
+            return AddLocked(new ProgressScope(this, name, estimatedChildrenCount, token));
         }
 
         public IProgressBase CreateSingle(string name)
