@@ -23,7 +23,7 @@ namespace Pmad.ProgressTracking.Wpf
         {
             this.dispatcher = dispatcher;
             this.RootItem = GetViewModel(Root);
-            this.timer = new DispatcherTimer(TimeSpan.FromMilliseconds(500), DispatcherPriority.Normal, Update, dispatcher);
+            this.timer = new DispatcherTimer(TimeSpan.FromMilliseconds(250), DispatcherPriority.Normal, Update, dispatcher);
         }
 
         private void Update(object? sender, EventArgs e)
@@ -37,9 +37,18 @@ namespace Pmad.ProgressTracking.Wpf
             }
         }
 
-        private ProgressItemViewModel GetViewModel(ProgressBase item)
+        public ProgressItemViewModel GetViewModel(ProgressBase item)
         {
             return table.GetOrAdd(item.Id, _ => new ProgressItemViewModel(item));
+        }
+
+        public ProgressItemViewModel? GetExistingViewModel(ProgressBase item)
+        {
+            if (table.TryGetValue(item.Id, out var viewModel))
+            {
+                return viewModel;
+            }
+            return null;
         }
 
         public override void Finished(ProgressBase progressBase)

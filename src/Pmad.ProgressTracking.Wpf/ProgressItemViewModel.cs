@@ -28,6 +28,10 @@ namespace Pmad.ProgressTracking.Wpf
 
         public bool IsFailed => item.Error != null;
 
+        public bool IsSuccess => !IsFailed && IsDone;
+
+        public ProgressBase Progress => item;
+
         public double PercentDone 
         {
             get { return percentDone; }
@@ -59,6 +63,10 @@ namespace Pmad.ProgressTracking.Wpf
             if (IsFailed)
             {
                 NotifyPropertyChanged(nameof(IsFailed));
+            }
+            else
+            {
+                NotifyPropertyChanged(nameof(IsSuccess));
             }
             Parent?.UpdatePercent();
         }
