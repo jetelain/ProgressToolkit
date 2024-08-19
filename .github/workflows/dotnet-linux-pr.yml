@@ -13,10 +13,6 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Use Nerdbank.GitVersioning to set version variables
-      uses: dotnet/nbgv@master
-      id: nbgv
-
     - name: Restore dependencies
       run: dotnet restore ProgressTracking.sln
 
