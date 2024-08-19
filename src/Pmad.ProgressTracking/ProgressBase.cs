@@ -86,24 +86,33 @@ namespace Pmad.ProgressTracking
         {
             if (IsDone)
             {
+                var text = "Done in";
+                if (Error != null)
+                {
+                    text = "Failed after";
+                }
                 var elapsedTime = Elapsed;
                 if (elapsedTime.TotalHours > 1)
                 {
-                    return $"Done in {elapsedTime.TotalHours:0.0} hours";
+                    return $"{text} {elapsedTime.TotalHours:0.0} hours";
                 }
                 if (elapsedTime.TotalMinutes > 2)
                 {
-                    return $"Done in {elapsedTime.TotalMinutes:0.0} min";
+                    return $"{text} {elapsedTime.TotalMinutes:0.0} min";
                 }
                 if (elapsedTime.TotalSeconds > 2)
                 {
-                    return $"Done in {elapsedTime.TotalSeconds:0} sec";
+                    return $"{text} {elapsedTime.TotalSeconds:0} sec";
                 }
-                return $"Done in {elapsedTime.TotalMilliseconds:0} msec";
+                return $"{text} {elapsedTime.TotalMilliseconds:0} msec";
             }
             if (IsTimeLinear)
             {
                 var percent = PercentDone;
+                if (percent >= 100)
+                {
+                    return "Almost done";
+                }
                 if (percent > 0)
                 {
                     var remainTime = TimeSpan.FromMilliseconds(ElapsedMilliseconds * (100.0 - percent) / percent);
