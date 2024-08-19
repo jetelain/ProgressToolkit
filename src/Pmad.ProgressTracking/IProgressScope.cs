@@ -3,7 +3,7 @@
     public interface IProgressScope : IProgressBase
     {
         /// <summary>
-        /// Cancellation token associated to root scope
+        /// Cancellation token associated to scope
         /// </summary>
         CancellationToken CancellationToken { get; }
 
@@ -41,7 +41,7 @@
         /// Create a sub-scope
         /// </summary>
         /// <param name="name">Name of the sub-scope</param>
-        /// <param name="estimatedChildrenCount">Estimated number of children of sub-scope</param>
+        /// <param name="estimatedChildrenCount">Estimated number of children of sub-scope (0 if unknown)</param>
         /// <returns></returns>
         IProgressScope CreateScope(string name, int estimatedChildrenCount = 0);
 
@@ -49,7 +49,7 @@
         /// Create a sub-scope with a new cancellation token
         /// </summary>
         /// <param name="name">Name of the sub-scope</param>
-        /// <param name="estimatedChildrenCount">Estimated number of children of sub-scope</param>
+        /// <param name="estimatedChildrenCount">Estimated number of children of sub-scope (0 if unknown)</param>
         /// <param name="token">Cancellation toekn of subscope</param>
         /// <returns></returns>
         IProgressScope CreateScope(string name, int estimatedChildrenCount, CancellationToken token);

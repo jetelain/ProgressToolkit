@@ -54,12 +54,12 @@
 
         public IProgressInteger CreateInteger(string name, int total)
         {
-            return AddLocked(new ProgressInteger(this, name, total));
+            return AddLocked(new ProgressInteger(this, name, Math.Max(1, total)));
         }
 
         public IProgressLong CreateLong(string name, long total)
         {
-            return AddLocked(new ProgressLong(this, name, total));
+            return AddLocked(new ProgressLong(this, name, Math.Max(1, total)));
         }
 
         private T AddLocked<T>(T item) where T : ProgressBase

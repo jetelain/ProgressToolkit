@@ -9,7 +9,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleDemo", "demo\Console
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pmad.ProgressTracking.Wpf", "src\Pmad.ProgressTracking.Wpf\Pmad.ProgressTracking.Wpf.csproj", "{C52D3FA7-4637-4F44-90C8-400F0D25765F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfDemo", "demo\WpfDemo\WpfDemo.csproj", "{6F565D51-9DA2-42B0-AD6E-7F1B9EB577A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfDemo", "demo\WpfDemo\WpfDemo.csproj", "{6F565D51-9DA2-42B0-AD6E-7F1B9EB577A3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pmad.ProgressTracking.Test", "test\Pmad.ProgressTracking.Test\Pmad.ProgressTracking.Test.csproj", "{74C4FF5A-01BF-4CCA-AB86-48D40CB018E4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{35A5CE4A-4942-45DC-A2AB-874F865E19C1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{74F290F5-FEA2-4A2D-AE6B-33F106731922}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Éléments de solution", "Éléments de solution", "{13D80BBE-D024-4900-ABA1-F9AD3AF71965}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\dotnet-linux-test.yml = .github\workflows\dotnet-linux-test.yml
+		.github\workflows\dotnet-linux.yml = .github\workflows\dotnet-linux.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,9 +45,18 @@ Global
 		{6F565D51-9DA2-42B0-AD6E-7F1B9EB577A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F565D51-9DA2-42B0-AD6E-7F1B9EB577A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F565D51-9DA2-42B0-AD6E-7F1B9EB577A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74C4FF5A-01BF-4CCA-AB86-48D40CB018E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74C4FF5A-01BF-4CCA-AB86-48D40CB018E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74C4FF5A-01BF-4CCA-AB86-48D40CB018E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74C4FF5A-01BF-4CCA-AB86-48D40CB018E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CD619078-2BA9-4CE2-AA2A-28F281CAE8F2} = {74F290F5-FEA2-4A2D-AE6B-33F106731922}
+		{6F565D51-9DA2-42B0-AD6E-7F1B9EB577A3} = {74F290F5-FEA2-4A2D-AE6B-33F106731922}
+		{74C4FF5A-01BF-4CCA-AB86-48D40CB018E4} = {35A5CE4A-4942-45DC-A2AB-874F865E19C1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {56D0A6AA-416C-42DA-A727-3B062EBBD436}
