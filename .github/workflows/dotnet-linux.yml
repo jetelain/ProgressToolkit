@@ -25,6 +25,9 @@ jobs:
     - name: Build
       run: dotnet build --no-restore --configuration Release ProgressTracking.sln
 
+    - name: Test
+      run: dotnet test --no-build --verbosity normal --configuration Release ProgressTracking.sln
+
     - name: Publish Nuget to nuget.org
       run: dotnet nuget push **/*.nupkg -k ${NUGET_PUSH_API_KEY} -s https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols 
       env:

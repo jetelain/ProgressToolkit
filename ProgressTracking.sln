@@ -19,8 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{74F290F5-F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Éléments de solution", "Éléments de solution", "{13D80BBE-D024-4900-ABA1-F9AD3AF71965}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\dotnet-linux-test.yml = .github\workflows\dotnet-linux-test.yml
 		.github\workflows\dotnet-linux.yml = .github\workflows\dotnet-linux.yml
+		.github\workflows\dotnet-linux-pr.yml = .github\workflows\dotnet-linux-pr.yml
 	EndProjectSection
 EndProject
 Global
