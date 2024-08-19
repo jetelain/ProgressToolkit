@@ -2,7 +2,13 @@
 
 Long-running task progress tracking toolkit.
 
-The API is not yet stable and may be subject to change.
+The API is not yet stable and may change.
+
+| Package   | Version  | Description |
+| --------- | -------- | -------- |
+| Pmad.ProgressTracking | [![NuGet](https://img.shields.io/nuget/v/Pmad.ProgressTracking?logo=nuget)](https://www.nuget.org/packages/Pmad.ProgressTracking/) | Abstractions, text and console frontend |
+| Pmad.ProgressTracking.Wpf | [![NuGet](https://img.shields.io/nuget/v/Pmad.ProgressTracking.Wpf?logo=nuget)](https://www.nuget.org/packages/Pmad.ProgressTracking.Wpf/) | WPF frontend |
+
 
 ## General usage
 
@@ -67,3 +73,4 @@ Example: [ConsoleDemo](demo/ConsoleDemo/Program.cs)
 
 ## WPF
 
+Example: [WpfDemo](demo/WpfDemo/MainWindow.xaml.cs)

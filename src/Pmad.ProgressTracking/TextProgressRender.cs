@@ -5,7 +5,8 @@
         private readonly TextWriter textWriter;
         private readonly object locker = new object();
 
-        public TextProgressRender(TextWriter textWriter)
+        public TextProgressRender(TextWriter textWriter, CancellationToken token = default)
+            : base(token)
         {
             this.textWriter = textWriter;
         }

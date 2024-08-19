@@ -1,10 +1,8 @@
-name: .NET Linux Publish
+name: .NET Linux Test
 
 on:
-  push:
-    branches: [ "main", "release/*" ]
-  release:
-    types: [ "published" ]
+  pull_request:
+    branches: [ "**" ]
     
 jobs:
   build:
@@ -27,8 +25,3 @@ jobs:
 
     - name: Test
       run: dotnet test --no-build --verbosity normal --configuration Release ProgressTracking.sln
-
-    - name: Publish Nuget to nuget.org
-      run: dotnet nuget push **/*.nupkg -k ${NUGET_PUSH_API_KEY} -s https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols 
-      env:
-        NUGET_PUSH_API_KEY: ${{ secrets.NUGET_PUSH_API_KEY }}
