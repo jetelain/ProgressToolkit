@@ -6,12 +6,12 @@ namespace ConsoleDemo
     {
         static async Task Main(string[] args)
         {
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
-            using (var progress = new ConsoleProgessRender())
+
+            using (var progress = ConsoleProgessHelper.CreateWithGracefulShutdown())
             {
                 progress.Root.WriteLine("This is a very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very long message ");
-                var t1 = Task.Run(() => DoAction(progress,"Action1"));
-                var t2 = Task.Run(() => DoAction(progress,"Action2"));
+                var t1 = Task.Run(() => DoAction(progress, "Action1"));
+                var t2 = Task.Run(() => DoAction(progress, "Action2"));
                 var t3 = Task.Run(() => DoAction(progress, "Action3"));
                 var t4 = Task.Run(() => DoAction(progress, "Action4"));
                 await t1;
