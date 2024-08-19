@@ -25,7 +25,7 @@ jobs:
       run: dotnet test --no-build --verbosity normal --configuration Release ProgressTracking.sln
 
     - name: Publish Nuget to nuget.org
-      run: dotnet nuget push **/*.nupkg -k ${{ secrets.NUGET_PUSH_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols 
+      run: dotnet nuget push **/*.nupkg -k ${{ secrets.NUGET_PUSH_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate
         
     - name: Publish NuGet package to GitHub
       run: |
