@@ -53,7 +53,8 @@ namespace Pmad.ProgressTracking.Wpf
 
         public override void Finished(ProgressBase progressBase)
         {
-            GetViewModel(progressBase).Finished();
+            var item = GetViewModel(progressBase);
+            dispatcher.BeginInvoke(() => item.Finished());
             UpdateTimer();
         }
 
@@ -84,7 +85,8 @@ namespace Pmad.ProgressTracking.Wpf
 
         public override void TextChanged(ProgressBase progressBase)
         {
-            GetViewModel(progressBase).TextChanged();
+            var item = GetViewModel(progressBase);
+            dispatcher.BeginInvoke(() => item.TextChanged());
         }
 
         public override void WriteLine(ProgressBase progressBase, string message)
